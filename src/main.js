@@ -4,6 +4,7 @@ import {filters as filtersLayout} from './components/filters.js';
 import {eventEdit as eventEditLayout} from './components/eventEdit.js';
 import {eventItem as eventItemLayout} from './components/eventItem.js';
 import {sort as sortLayout} from './components/sort.js';
+import {getPoint} from './data.js';
 
 const render = (container, element, position) => {
   container.insertAdjacentHTML(position, element);
@@ -52,7 +53,7 @@ const renderTripDay = (dayNumber, eventsCount) => {
   for (let index = 0; index < eventsCount; index++) {
     const tripEventsItem = document.createElement(`li`);
     tripEventsItem.classList.add(`trip-events__item`);
-    render(tripEventsItem, eventItemLayout(), `afterbegin`);
+    render(tripEventsItem, eventItemLayout(getPoint()), `afterbegin`);
     tripEventsList.appendChild(tripEventsItem);
   }
 
