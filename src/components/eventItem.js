@@ -1,4 +1,4 @@
-export const eventItem = ({icon, action, city, image, description, timeStart, timeEnd, price, options}) => `
+export const eventItem = ({ icon, action, city, image, description, timeStart, timeEnd, price, options }, optionsNumbers) => `
     <div class="event">
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${icon}.png" alt="${icon}">
@@ -20,11 +20,12 @@ export const eventItem = ({icon, action, city, image, description, timeStart, ti
 
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${options.map((option) => `
+    
+        ${optionsNumbers.map((optionNumber) => `
           <li class="event__offer">
-          <span class="event__offer-title">${option.name}</span>
+          <span class="event__offer-title">${options[optionNumber ].name}</span>
           &plus;
-          &euro;&nbsp;<span class="event__offer-price">${option.cost}</span>
+          &euro;&nbsp;<span class="event__offer-price">${options[optionNumber].cost}</span>
           </li>
         `).join(``)}
       </ul>
