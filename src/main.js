@@ -12,8 +12,19 @@ import { render } from './render.js'
 const days = getDays(3, new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100))))
 const tripPonts = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100)));
 
+const getTotal = (days) => {
+  let total = 0;
+  days.map((day) => day.points.map((point) => {
+    total += point.price
+    point.options.map((option) => total += option.cost)
+  }));
+  return total;
+}
+
 
 const tripInfoContainer = document.querySelector(`.trip-main__trip-info `);
+const tripTotal = document.querySelector(`.trip-info__cost-value `);
+tripTotal.textContent = getTotal(days);
 const menu = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
 
