@@ -1,10 +1,10 @@
-import {tripInfo as tripInfoLayout} from './components/tripInfo.js';
-import {menu as menuLayout} from './components/menu.js';
-import {filters as filtersLayout} from './components/filters.js';
-import {eventEdit as eventEditLayout} from './components/eventEdit.js';
-import {eventItem as eventItemLayout} from './components/eventItem.js';
-import {sort as sortLayout} from './components/sort.js';
-import {getPoint} from './data.js';
+import { tripInfo as tripInfoLayout } from './components/tripInfo.js';
+import { menu as menuLayout } from './components/menu.js';
+import { filters as filtersLayout } from './components/filters.js';
+import { eventEdit as eventEditLayout } from './components/eventEdit.js';
+import { eventItem as eventItemLayout } from './components/eventItem.js';
+import { sort as sortLayout } from './components/sort.js';
+import { getPoint } from './data.js';
 
 const render = (container, element, position) => {
   container.insertAdjacentHTML(position, element);
@@ -47,15 +47,19 @@ const renderTripDay = (dayNumber, eventsCount) => {
 
   const tripEventsItemEdit = document.createElement(`li`);
   tripEventsItemEdit.classList.add(`trip-events__item`);
+
   render(tripEventsItemEdit, eventEditLayout(), `afterbegin`);
   tripEventsList.appendChild(tripEventsItemEdit);
 
-  for (let index = 0; index < eventsCount; index++) {
+  const tripPonts = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100)));
+
+  tripPonts.map((point) => {
     const tripEventsItem = document.createElement(`li`);
     tripEventsItem.classList.add(`trip-events__item`);
-    render(tripEventsItem, eventItemLayout(getPoint()), `afterbegin`);
+    render(tripEventsItem, eventItemLayout(point, [Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)]), `afterbegin`);
     tripEventsList.appendChild(tripEventsItem);
-  }
+  })
+
 
   tripDyaItem.appendChild(dayInfo);
   tripDyaItem.appendChild(tripEventsList);
