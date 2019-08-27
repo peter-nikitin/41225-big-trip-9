@@ -4,25 +4,25 @@ import { filters as filtersLayout } from './components/filters.js';
 
 
 import { sort as sortLayout } from './components/sort.js';
-import { getPoint, getFilter, getDays } from './data.js';
+import { getPoint, getFilter, getDays, getTripInfo } from './data.js';
 import { renderTripDay } from './renderTripDay.js'
 import { render } from './render.js'
 
 
+const days = getDays(3, new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100))))
+const tripPonts = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100)));
 
-const tripInfo = document.querySelector(`.trip-main__trip-info `);
+
+const tripInfoContainer = document.querySelector(`.trip-main__trip-info `);
 const menu = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
 
-render(tripInfo, tripInfoLayout(), `afterbegin`);
+render(tripInfoContainer, tripInfoLayout(getTripInfo(days)), `afterbegin`);
 render(menu, menuLayout(), `afterbegin`);
 render(menu, filtersLayout(getFilter()), `beforeend`);
 render(tripEvents, sortLayout(), `afterbegin`);
 
-const days = getDays(3, new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100))))
-const tripPonts = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100)));
 
-console.log(days);
 
 
 const tripDays = document.createElement(`ul`);
