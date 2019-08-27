@@ -55,4 +55,10 @@ export const getDays = (daysCount, getPoints) => {
     })
   }
   return days;
-}
+};
+
+export const getTripInfo = (days) => ({
+  citys: new Set(days.map((day) => day.points.map((point) => point.city)).join(`,`).split(',')),
+  startDate: days[0].points[0].timeStart,
+  endDate: days[days.length - 1].points[days[days.length - 1].points.length - 1].timeEnd,
+});
