@@ -43,3 +43,16 @@ export const getPoint = (price) => ({
     { name: `Choose seats`, cost: 9 },
   ]
 });
+
+export const getFilter = () => [`Everything`, `Future`, `Past`];
+
+export const getDays = (daysCount, getPoints) => {
+  const days = [];
+  for (let index = 0; index < daysCount; index++) {
+    days.push({
+      date: Date.now() + (Math.floor(Math.random() * 10 * 60 * 60 * 60 * 24)),
+      points: getPoints
+    })
+  }
+  return days;
+}
