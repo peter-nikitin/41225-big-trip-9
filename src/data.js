@@ -1,4 +1,4 @@
-export const getPoint = (timeStart, timeEnd, price) => ({
+export const getPoint = (price) => ({
   icon: [
     `bus`,
     `check-in`,
@@ -37,9 +37,9 @@ export const getPoint = (timeStart, timeEnd, price) => ({
   timeEnd: Date.now() + Math.floor(Math.random() * 10 * 2),
   price,
   options: [
-    {name: `Add luggage`, cost: 10},
-    {name: `Switch to comfort class`, cost: 150},
-    {name: `Add meal`, cost: 2},
-    {name: `Choose seats`, cost: 9},
+    { name: `Add luggage`, cost: 10 },
+    { name: `Switch to comfort class`, cost: 150 },
+    { name: `Add meal`, cost: 2 },
+    { name: `Choose seats`, cost: 9 },
   ]
 });
