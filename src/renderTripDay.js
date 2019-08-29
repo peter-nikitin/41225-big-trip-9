@@ -1,7 +1,10 @@
 import { render } from './render.js'
 import { eventEdit as eventEditLayout } from './components/eventEdit.js';
 import { eventItem as eventItemLayout } from './components/eventItem.js';
+
+
 export const renderTripDay = (dayNumber, tripPonts) => {
+  
   const tripDyaItem = document.createElement(`li`);
   tripDyaItem.classList.add(`trip-days__item`);
   tripDyaItem.classList.add(`day`);
@@ -27,15 +30,15 @@ export const renderTripDay = (dayNumber, tripPonts) => {
   const tripEventsItemEdit = document.createElement(`li`);
   tripEventsItemEdit.classList.add(`trip-events__item`);
 
-  render(tripEventsItemEdit, eventEditLayout(), `afterbegin`);
+  render(tripEventsItemEdit, eventEditLayout(tripPonts[0]), `afterbegin`);
   tripEventsList.appendChild(tripEventsItemEdit);
 
 
 
-  tripPonts.map((point) => {
+  tripPonts.slice(1).map((point) => {
     const tripEventsItem = document.createElement(`li`);
     tripEventsItem.classList.add(`trip-events__item`);
-    render(tripEventsItem, eventItemLayout(point, [Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)]), `afterbegin`);
+    render(tripEventsItem, eventItemLayout(point), `afterbegin`);
     tripEventsList.appendChild(tripEventsItem);
   })
 
