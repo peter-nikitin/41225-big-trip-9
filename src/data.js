@@ -1,4 +1,4 @@
-export const  descriptions = [
+export const descriptions = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
@@ -13,10 +13,10 @@ export const  descriptions = [
 ];
 
 export const options = [
-  { name: `Add luggage`, cost: 10 },
-  { name: `Switch to comfort class`, cost: 150 },
-  { name: `Add meal`, cost: 2 },
-  { name: `Choose seats`, cost: 9 },
+  {name: `Add luggage`, cost: 10},
+  {name: `Switch to comfort class`, cost: 150},
+  {name: `Add meal`, cost: 2},
+  {name: `Choose seats`, cost: 9},
 ];
 
 export const activity = {
@@ -25,22 +25,20 @@ export const activity = {
 };
 export const citys = [`Moscow`, `Sain-Petersburg`, `Porto`, `Lisboa`];
 
-export const getPoint = (price, {type, number}, cityNumber, descriptionNumber, optionsNumber ) => ({
-  action:  {
+export const getPoint = (price, {type, number}) => ({
+  action: {
     type,
     name: activity[type][number]
   },
-  city: citys[cityNumber],
-  images: new Array(Math.floor(Math.random() * 7)).fill(``).map((item) => `http://picsum.photos/300/150?r=${Math.random()}`),
-  description: new Array(descriptionNumber.length).fill(``).map((item, index) => descriptions[index]).join(` `),
+  city: citys[Math.floor(Math.random() * citys.length)],
+  images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
+  description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
   timeStart: Date.now() + Math.floor(Math.random() * 10),
   timeEnd: Date.now() + Math.floor(Math.random() * 10 * 2),
   price,
-  selectedOptions: optionsNumber.map((number) => options[number]),
+  selectedOptions: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => Math.floor(Math.random() * options.length)).map((option) => options[option]),
   isFavorite: Boolean(Math.round(Math.random()))
 });
-
-
 
 export const getFilter = () => [`Everything`, `Future`, `Past`];
 
@@ -50,7 +48,7 @@ export const getDays = (daysCount, getPoints) => {
     days.push({
       date: Date.now() + (Math.floor(Math.random() * 10 * 60 * 60 * 60 * 24)),
       points: getPoints
-    })
+    });
   }
   return days;
 };

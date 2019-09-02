@@ -1,27 +1,27 @@
-import { tripInfo as tripInfoLayout } from './components/tripInfo.js';
-import { menu as menuLayout } from './components/menu.js';
-import { filtersLayout } from './components/filters.js';
+import {tripInfo as tripInfoLayout} from './components/tripInfo.js';
+import {menu as menuLayout} from './components/menu.js';
+import {filtersLayout} from './components/filters.js';
 
 
-import { sort as sortLayout } from './components/sort.js';
-import { getPoint, getFilter, getDays, getTripInfo } from './data.js';
-import { renderTripDay } from './renderTripDay.js';
-import { render } from './render.js';
+import {sort as sortLayout} from './components/sort.js';
+import {getPoint, getFilter, getDays, getTripInfo} from './data.js';
+import {renderTripDay} from './renderTripDay.js';
+import {render} from './render.js';
 
 
 const days = getDays(1, new Array(3).fill(``).map(() => getPoint(
     Math.floor(Math.random() * 100),
-    {type: `activity`, number: 2},
-    Math.floor(Math.random() * 4),
-    new Array(Math.floor(Math.random() * 3)).fill(``).map(() => Math.floor(Math.random() * 11)),
-    new Array(Math.floor(Math.random() * 4)).fill(``).map(() => Math.floor(Math.random() * 4)))));
+    {type: `activity`, number: 2})));
 
-const getTotal = (days) => {
+const getTotal = (daysCount) => {
   let total = 0;
-  days.map((day) => day.points.map((point) => {
+  daysCount.map((day) => day.points.map((point) => {
     total += point.price;
     point.selectedOptions.map((option) => {
-      total += option.cost;
+      if (option) {
+        console.log(option);
+        total += option.cost;
+      }
     });
   }));
   return total;
