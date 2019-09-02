@@ -1,4 +1,4 @@
-export const eventItem = ({ action , city, images, description, timeStart, timeEnd, price, selectedOptions, isFavorite } ) => `
+export const eventItem = ({action, city, timeStart, timeEnd, price, selectedOptions}) => `
     <div class="event">
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${action.name.toLowerCase()}.png" alt="${action.name.toLowerCase()}">

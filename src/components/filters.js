@@ -1,4 +1,4 @@
-export const filters = (filters) => `
+export const filtersLayout = (filters) => `
 <form class="trip-filters" action="#" method="get">
 ${filters.map((filter) => `
 <div class="trip-filters__filter">
