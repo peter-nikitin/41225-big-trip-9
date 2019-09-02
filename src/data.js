@@ -42,19 +42,10 @@ export const getPoint = (price, {type, number}) => ({
 
 export const getFilter = () => [`Everything`, `Future`, `Past`];
 
-export const getDays = (daysCount, getPoints) => {
-  const days = [];
-  for (let index = 0; index < daysCount; index++) {
-    days.push({
-      date: Date.now() + (Math.floor(Math.random() * 10 * 60 * 60 * 60 * 24)),
-      points: getPoints
-    });
-  }
-  return days;
-};
+export const getDays = (points) => new Set(points.map((point) => `${new Date(point.timeStart).getFullYear()}-${new Date(point.timeStart).getMonth()}-${new Date(point.timeStart).getDate()}`));
 
-export const getTripInfo = (days) => ({
-  citys: new Set(days.map((day) => day.points.map((point) => point.city)).join(`,`).split(',')),
-  startDate: days[0].points[0].timeStart,
-  endDate: days[days.length - 1].points[days[days.length - 1].points.length - 1].timeEnd,
+export const getTripInfo = (points) => ({
+  citys: new Set(points.map((point) => point.city)),
+  startDate: points[0].timeStart,
+  endDate: points[points.length - 1].timeEnd,
 });
