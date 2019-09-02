@@ -49,27 +49,37 @@ const renderPoint = (mockPoint) => {
   const event = new Event(mockPoint);
   const eventEdit = new EventEdit(mockPoint);
 
+  const hideOnEsc = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      eventsContainer.replaceChild(event.getElement(), eventEdit.getElement());
+    }
+  }; 
+
   event.getElement()
     .querySelector(`.event__rollup-btn`)
     .addEventListener(`click`, () => {
       eventsContainer.replaceChild(eventEdit.getElement(), event.getElement());
+      document.addEventListener(`keydown`, hideOnEsc);
     });
 
   eventEdit.getElement()
     .querySelector(`.event__rollup-btn`)
     .addEventListener(`click`, () => {
       eventsContainer.replaceChild(event.getElement(), eventEdit.getElement());
+      document.removeEventListener(`keydown`, hideOnEsc);
     });
   eventEdit.getElement()
     .querySelector(`.event__save-btn`)
     .addEventListener(`click`, () => {
       eventsContainer.replaceChild(event.getElement(), eventEdit.getElement());
+      document.removeEventListener(`keydown`, hideOnEsc);
     });
 
   eventEdit.getElement()
     .querySelector(`form`)
     .addEventListener(`submit`, () => {
       eventsContainer.replaceChild(event.getElement(), eventEdit.getElement());
+      document.removeEventListener(`keydown`, hideOnEsc);
     });
 
   eventEdit.getElement()
@@ -77,8 +87,17 @@ const renderPoint = (mockPoint) => {
     .addEventListener(`click`, () => {
       unRender(eventEdit.getElement());
       eventEdit.removeElement();
+      document.removeEventListener(`keydown`, hideOnEsc);
     });
 
   render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
-mockPoints.map((point) => renderPoint(point));
+
+const futurePoints = mockPoints.filter((day) => day.timeStart > Date.now());
+console.log(futurePoints);
+
+if (futurePoints.length === 0) {
+  tripEvents.innerHTML = `<h2 class="visually-hidden">Trip events</h2><p class="trip-events__msg">Click New Event to create your first point</p>`;
+} else {
+  mockPoints.map((point) => renderPoint(point));
+}
