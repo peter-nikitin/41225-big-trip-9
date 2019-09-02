@@ -1,10 +1,10 @@
-import { render } from './render.js'
-import { eventEdit as eventEditLayout } from './components/eventEdit.js';
-import { eventItem as eventItemLayout } from './components/eventItem.js';
+// import {render} from './render.js';
+import {eventEdit as eventEditLayout} from './components/eventEdit.js';
+import {eventItem as eventItemLayout} from './components/eventItem.js';
 
 
-export const renderTripDay = (dayNumber, tripPonts) => {
-  
+export const renderTripDay = (day, dayIndex) => {
+
   const tripDyaItem = document.createElement(`li`);
   tripDyaItem.classList.add(`trip-days__item`);
   tripDyaItem.classList.add(`day`);
@@ -14,34 +14,18 @@ export const renderTripDay = (dayNumber, tripPonts) => {
 
   const counter = document.createElement(`span`);
   counter.classList.add(`day__counter`);
-  counter.innerText = dayNumber;
+  counter.innerText = dayIndex + 1;
 
   const dateElement = document.createElement(`time`);
   dateElement.classList.add(`day__date`);
-  dateElement.dateTime = `2019-03-18`;
-  dateElement.innerText = `MAR 18`;
+  dateElement.dateTime = day;
+  dateElement.innerText = day;
 
   dayInfo.appendChild(counter);
   dayInfo.appendChild(dateElement);
 
   const tripEventsList = document.createElement(`ul`);
   tripEventsList.classList.add(`trip-events__list`);
-
-  const tripEventsItemEdit = document.createElement(`li`);
-  tripEventsItemEdit.classList.add(`trip-events__item`);
-
-  render(tripEventsItemEdit, eventEditLayout(tripPonts[0]), `afterbegin`);
-  tripEventsList.appendChild(tripEventsItemEdit);
-
-
-
-  tripPonts.slice(1).map((point) => {
-    const tripEventsItem = document.createElement(`li`);
-    tripEventsItem.classList.add(`trip-events__item`);
-    render(tripEventsItem, eventItemLayout(point), `afterbegin`);
-    tripEventsList.appendChild(tripEventsItem);
-  })
-
 
   tripDyaItem.appendChild(dayInfo);
   tripDyaItem.appendChild(tripEventsList);
