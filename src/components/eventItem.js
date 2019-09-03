@@ -1,27 +1,56 @@
-export const eventItem = ({action, city, timeStart, timeEnd, price, selectedOptions}) => `
+import {createElement} from '../utils.js';
+
+export default class Event {
+  constructor({action, city, timeStart, timeEnd, price, selectedOptions}) {
+    this._action = action;
+    this._city = city;
+    this._timeStart = new Date(timeStart);
+    this._timeEnd = new Date(timeEnd);
+    this._price = price;
+    this._selectedOptions = selectedOptions;
+    this._elem = null;
+  }
+
+  getElement() {
+    if (!this._elem) {
+      this._elem = createElement(this.getTemplate());
+    }
+
+    return this._elem;
+  }
+
+  removeElement() {
+    if (this._elem) {
+      this._elem = null;
+    }
+  }
+
+  getTemplate() {
+    return `
+    <li class="trip-events__item">
     <div class="event">
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${action.name.toLowerCase()}.png" alt="${action.name.toLowerCase()}">
+        <img class="event__type-icon" width="42" height="42" src="img/icons/${this._action.name.toLowerCase()}.png" alt="${this._action.name.toLowerCase()}">
       </div>
-      <h3 class="event__title">${action.name} ${ action.type === `transfer` ? `to ` : `at `} ${city}</h3>
+      <h3 class="event__title">${this._action.name} ${ this._action.type === `transfer` ? `to ` : `at `} ${this._city}</h3>
 
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${new Date(timeStart).toLocaleTimeString()}</time>
+          <time class="event__start-time" datetime="2019-03-18T10:30">${this._timeStart.toLocaleTimeString()}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${new Date(timeEnd).toLocaleTimeString()}</time>
+          <time class="event__end-time" datetime="2019-03-18T11:00">${this._timeEnd.toLocaleTimeString()}</time>
         </p>
-        <p class="event__duration">${new Date(timeStart - timeEnd).toLocaleTimeString()}</p>
+        <p class="event__duration">${this._timeStart - this._timeEnd.toLocaleTimeString()}</p>
       </div>
 
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">${price}</span>
+        &euro;&nbsp;<span class="event__price-value">${this._price}</span>
       </p>
 
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
     
-        ${selectedOptions.map((option) => `
+        ${this._selectedOptions.map((option) => `
           <li class="event__offer">
           <span class="event__offer-title">${option.name}</span>
           &plus;
@@ -34,4 +63,6 @@ export const eventItem = ({action, city, timeStart, timeEnd, price, selectedOpti
         <span class="visually-hidden">Open event</span>
       </button>
     </div>
-`;
+    </li>`;
+  }
+}
