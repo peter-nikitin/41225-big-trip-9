@@ -1,28 +1,15 @@
 import {createElement} from '../utils.js';
+import AbstractComponent from './abstractComponent';
 
-export default class Event {
+export default class Event extends AbstractComponent {
   constructor({action, city, timeStart, timeEnd, price, selectedOptions}) {
+    super();
     this._action = action;
     this._city = city;
     this._timeStart = new Date(timeStart);
     this._timeEnd = new Date(timeEnd);
     this._price = price;
     this._selectedOptions = selectedOptions;
-    this._elem = null;
-  }
-
-  getElement() {
-    if (!this._elem) {
-      this._elem = createElement(this.getTemplate());
-    }
-
-    return this._elem;
-  }
-
-  removeElement() {
-    if (this._elem) {
-      this._elem = null;
-    }
   }
 
   getTemplate() {
@@ -49,7 +36,7 @@ export default class Event {
 
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-    
+
         ${this._selectedOptions.map((option) => `
           <li class="event__offer">
           <span class="event__offer-title">${option.name}</span>
