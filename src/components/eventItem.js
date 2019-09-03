@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+
 import AbstractComponent from './abstractComponent';
 
 export default class Event extends AbstractComponent {

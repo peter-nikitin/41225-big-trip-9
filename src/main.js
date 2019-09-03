@@ -30,7 +30,7 @@ tripTotal.textContent = getTotal(mockPoints);
 const menu = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
 
-tripInfoContainer.innerHTML = tripInfoLayout(getTripInfo(mockPoints));
+tripInfoContainer.insertAdjacentHTML(`afterbegin`, tripInfoLayout(getTripInfo(mockPoints)));
 menu.insertAdjacentHTML(`afterbegin`, menuLayout());
 menu.insertAdjacentHTML(`beforeend`, filtersLayout(getFilter()));
 tripEvents.insertAdjacentHTML(`afterbegin`, sortLayout());
