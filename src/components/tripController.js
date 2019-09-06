@@ -32,7 +32,6 @@ export default class TripController {
     [...getDays(points)].map((day, index) => {
       const currentDay = new TripList(day, index);
       const currentDatEventsList = currentDay.getElement().querySelector(`.trip-events__list`);
-     
       points.filter((currentPoint) => `${new Date(currentPoint.timeStart).getFullYear()}-${new Date(currentPoint.timeStart).getMonth()}-${new Date(currentPoint.timeStart).getDate()}` === day)
         .map((currentPoints) => this._renderPoint(currentPoints, currentDatEventsList));
 
@@ -112,7 +111,7 @@ export default class TripController {
   _sortOnClick(evt) {
     const target = evt.target;
     if (target.tagName !== `LABEL`) {
-      return null;
+      return;
     }
     this._tirpList.getElement().innerHTML = ``;
 
