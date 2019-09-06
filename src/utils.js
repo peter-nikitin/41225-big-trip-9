@@ -1,7 +1,7 @@
 export const createElement = (element) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = element;
-  return newElement.firstElementChild; 
+  return newElement.firstElementChild;
 };
 
 export const Position = {
@@ -23,3 +23,5 @@ export const render = (container, element, position) => {
 export const unRender = (element) => {
   element.remove();
 };
+
+export const getDays = (points) => new Set(points.map((point) => `${new Date(point.timeStart).getFullYear()}-${new Date(point.timeStart).getMonth()}-${new Date(point.timeStart).getDate()}`));
