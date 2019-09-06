@@ -42,8 +42,6 @@ export const getPoint = (price, {type, number}) => ({
 
 export const getFilter = () => [`Everything`, `Future`, `Past`];
 
-export const getDays = (points) => new Set(points.map((point) => `${new Date(point.timeStart).getFullYear()}-${new Date(point.timeStart).getMonth()}-${new Date(point.timeStart).getDate()}`));
-
 export const getTripInfo = (points) => ({
   citys: new Set(points.map((point) => point.city)),
   startDate: points[0].timeStart,
