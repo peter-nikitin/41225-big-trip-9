@@ -1,6 +1,6 @@
 import AbstractComponent from './abstractComponent';
 
-export default class TripList extends AbstractComponent {
+export default class Day extends AbstractComponent {
   constructor(date, dayCount) {
     super();
     this._dayCount = dayCount;
@@ -16,7 +16,7 @@ export default class TripList extends AbstractComponent {
       </div>
 
       <ul class="trip-events__list">
-      
+
       </ul>
       </li>`;
   }
