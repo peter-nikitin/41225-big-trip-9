@@ -4,7 +4,7 @@ import {filtersLayout} from './components/filters.js';
 
 import {getPoint, getFilter, getTripInfo} from './data.js';
 
-import TripController from './components/tripController';
+import TripController from './controllers/tripController';
 
 const mockPoints = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100), {type: `activity`, number: 2}));
 
@@ -12,7 +12,7 @@ const getTotal = (points) => {
   let total = 0;
   points.map((point) => {
     total += point.price;
-    point.selectedOptions.map((option) => {
+    [...point.selectedOptions].map((option) => {
       if (option) {
         total += option.cost;
       }
