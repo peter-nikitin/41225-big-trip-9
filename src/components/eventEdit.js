@@ -1,4 +1,4 @@
-import {options, activity, citys} from '../data.js';
+import {activity, citys} from '../data.js';
 import AbstractComponent from './abstractComponent';
 
 export default class EventEdit extends AbstractComponent {
@@ -14,6 +14,7 @@ export default class EventEdit extends AbstractComponent {
     this._description = description;
     this._isFavorite = isFavorite;
     this._selectedOptions = selectedOptions;
+    this._init();
   }
 
   getTemplate() {
@@ -38,7 +39,7 @@ export default class EventEdit extends AbstractComponent {
                   <input id="event-type-${currentActivity.name.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentActivity.name.toLowerCase()}"
                   ${(currentActivity.name === this._action) ? `checked` : ``}
                   >
-                  <label class="event__type-label  event__type-label--${currentActivity.name.toLowerCase()}" for="event-type-${currentActivity.name}-1">${currentActivity.name}</label>
+                  <label class="event__type-label  event__type-label--${currentActivity.name.toLowerCase()}" for="event-type-${currentActivity.name.toLowerCase()}-1">${currentActivity.name}</label>
                 </div>
                 `).join(``)}
               </fieldset>
@@ -52,7 +53,7 @@ export default class EventEdit extends AbstractComponent {
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._city}" list="destination-list-1">
           <datalist id="destination-list-1">
-            ${citys.map((currentCity) => `<option value="${currentCity}"></option>`).join(``)}
+            ${citys.map((currentCity) => `<option value="${currentCity.name}"></option>`).join(``)}
           </datalist>
         </div>
 
@@ -60,12 +61,12 @@ export default class EventEdit extends AbstractComponent {
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart.toLocaleString()}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart.toString()}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd.toLocaleString()}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd.toString()}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -98,7 +99,7 @@ export default class EventEdit extends AbstractComponent {
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
           <div class="event__available-offers">
-          ${options.map((option) => `
+          ${activity[activity.findIndex((item) => item.name === this._action)].options.map((option) => `
           <div class="event__offer-selector">
             <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option.name}-1" type="checkbox" name="event-offer" value="${option.name}-${option.cost}"
             ${(new Set([...this._selectedOptions].map((currentOpt) => currentOpt.name)).has(option.name)) ? `checked` : `` }
@@ -116,18 +117,68 @@ export default class EventEdit extends AbstractComponent {
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
           <p class="event__destination-description">
-          ${this._description}
+          ${this._city.description}
           </p>
 
           <div class="event__photos-container">
             <div class="event__photos-tape">
-            ${this._images.map((image) => `<img class="event__photo" src="${image}" alt="Event photo">`).join(``)}
+            ${citys.find((item) => item.name === this._city).images.map((image) => `<img class="event__photo" src="${image}" alt="Event photo">`).join(``)}
             </div>
           </div>
         </section>
       </section>
     </form>
     </li>`;
+  }
+
+  _init() {
+    this.getElement().querySelector(`.event__type-list`)
+    .addEventListener(`click`, (e) => {
+      if (e.target.classList.contains(`event__type-label`)) {
+        const newActionName = e.target.textContent;
+        const newAction = activity.find((innreItem) => newActionName === innreItem.name);
+        this._onChangeAction(newAction);
+      }
+    });
+
+    this.getElement().querySelector(`.event__input--destination`)
+    .addEventListener(`blur`, (e) => {
+      const inputValue = e.target.value;
+      const newCity = citys.find((innreItem) => inputValue === innreItem.name) || {
+        name: e.target.value,
+        description: ``,
+        images: ``
+      };
+      this._onCityChange(newCity);
+    });
+
+  }
+
+  _onChangeAction(newActivity) {
+    const container = this.getElement().querySelector(`.event__available-offers`);
+    const image = this.getElement().querySelector(`.event__type-icon`);
+    const action = this.getElement().querySelector(`.event__type-output`);
+
+    image.src = `img/icons/${newActivity.name.toLowerCase()}.png`;
+    action.textContent = `${newActivity.name} to`;
+    container.innerHTML = `
+    ${newActivity.options.map((option) => `
+    <div class="event__offer-selector">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option.name}-1" type="checkbox" name="event-offer" value="${option.name}-${option.cost}"      >
+      <label class="event__offer-label" for="event-offer-${option.name}-1">
+        <span class="event__offer-title">${option.name}</span>
+        &plus;
+        &euro;&nbsp;<span class="event__offer-price">${option.cost}</span>
+      </label>
+    </div>
+    `).join(``)}`;
+  }
+
+  _onCityChange(newCity) {
+    const description = this.getElement().querySelector(`.event__destination-description`);
+    const images = this.getElement().querySelector(`.event__photos-tape`);
+    description.textContent = newCity.description ? newCity.description : ``;
+    images.innerHTML = `${newCity.images ? newCity.images.map((image) => `<img class="event__photo" src="${image}" alt="Event photo">`).join(``) : ``}`;
   }
 }
 
