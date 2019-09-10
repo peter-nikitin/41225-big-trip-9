@@ -1,4 +1,4 @@
-import {unRender, render, Position, getDays} from '../utils';
+import {unRender, render, Position} from '../utils';
 import Event from '../components/eventItem';
 import EventEdit from '../components/eventEdit';
 
@@ -63,9 +63,6 @@ export default class PointController {
           selectedOptions: new Set(formData.getAll(`event-offer`).map((option) => ({name: option.split(`-`)[0], cost: option.split(`-`)[1]}))),
           isFavorite: this._point.isFavorite
         };
-
-        console.log(Date.parse(formData.get(`event-start-time`)));
-        console.log(newData.timeStart);
         this._onDataChange(newData, this._point);
 
         this._container.replaceChild(
@@ -92,7 +89,7 @@ export default class PointController {
       .querySelector(`.event__reset-btn`)
       .addEventListener(`click`, () => {
         unRender(this._eventEdit.getElement());
-        eventEdit.removeElement();
+        this._eventEdit.removeElement();
         document.removeEventListener(`keydown`, hideOnEsc);
       });
     render(this._container, this._event.getElement(), Position.BEFOREEND);
