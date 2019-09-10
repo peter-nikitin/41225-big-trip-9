@@ -19,24 +19,60 @@ export const options = [
   {name: `Choose seats`, cost: 9},
 ];
 
-export const activity = {
-  transfer: [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`],
-  activity: [`Check-in`, `Sightseeing`, `Restaurant`]
-};
+export const activity = [
+  {
+    name: `Taxi`,
+    type: `transfer`
+  },
+  {
+    name: `Bus`,
+    type: `transfer`
+  },
+  {
+    name: `Train`,
+    type: `transfer`
+  },
+  {
+    name: `Ship`,
+    type: `transfer`
+  },
+  {
+    name: `Transport`,
+    type: `transfer`
+  },
+  {
+    name: `Drive`,
+    type: `transfer`
+  },
+  {
+    name: `Flight`,
+    type: `transfer`
+  },
+  {
+    name: `Check-in`,
+    type: `activity`
+  },
+  {
+    name: `Sightseeing`,
+    type: `activity`
+  },
+  {
+    name: `Restaurant`,
+    type: `activity`
+  }
+]
+
 export const citys = [`Moscow`, `Sain-Petersburg`, `Porto`, `Lisboa`];
 
-export const getPoint = (price, {type, number}) => ({
-  action: {
-    type,
-    name: activity[type][number]
-  },
+export const getPoint = (price) => ({
+  action: activity[Math.floor(Math.random() * activity.length)].name,
   city: citys[Math.floor(Math.random() * citys.length)],
   images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
   description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
-  timeStart: Date.now() + Math.floor(Math.random() * 10),
-  timeEnd: Date.now() + Math.floor(Math.random() * 10 * 2),
+  timeStart: new Date(Date.now() + Math.floor(Math.random() * 10)),
+  timeEnd: new Date(Date.now() + (Math.floor(Math.random() * 10) + 1) * 1000 * 60 * 60),
   price,
-  selectedOptions: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => Math.floor(Math.random() * options.length)).map((option) => options[option]),
+  selectedOptions: new Set(new Array(Math.floor(Math.random() * 3)).fill(``).map(() => Math.floor(Math.random() * options.length)).map((option) => options[option])),
   isFavorite: Boolean(Math.round(Math.random()))
 });
 

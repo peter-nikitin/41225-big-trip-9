@@ -4,6 +4,7 @@ import AbstractComponent from './abstractComponent';
 export default class EventEdit extends AbstractComponent {
   constructor({action, city, images, description, timeStart, timeEnd, price, selectedOptions, isFavorite}) {
     super();
+    this._activities = new Set(activity.map((item) => item.type));
     this._action = action;
     this._city = city;
     this._timeStart = new Date(timeStart);
@@ -23,32 +24,31 @@ export default class EventEdit extends AbstractComponent {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${this._action.name.toLowerCase()}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${this._action.toLowerCase()}.png" alt="Event type icon">
           </label>
 
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
           <div class="event__type-list">
-
-            ${Object.keys(activity).map((ActivityType) => `
+            ${[...this._activities].map((action) => (`
               <fieldset class="event__type-group">
-                <legend class="visually-hidden">${ActivityType.charAt(0).toUpperCase() + ActivityType.slice(1)}</legend>
-                ${activity[ActivityType].map((currentActivity) => `
+                <legend class="visually-hidden">${action}</legend>
+                ${activity.filter((item) => item.type === action).map((currentActivity) => `
                 <div class="event__type-item">
-                  <input id="event-type-${currentActivity.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentActivity.toLowerCase()}"
-                  ${(currentActivity === this._action.name) ? `checked` : ``}
+                  <input id="event-type-${currentActivity.name.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${currentActivity.name.toLowerCase()}"
+                  ${(currentActivity.name === this._action) ? `checked` : ``}
                   >
-                  <label class="event__type-label  event__type-label--${currentActivity.toLowerCase()}" for="event-type-${currentActivity.toLowerCase()}-1">${currentActivity}</label>
+                  <label class="event__type-label  event__type-label--${currentActivity.name.toLowerCase()}" for="event-type-${currentActivity.name}-1">${currentActivity.name}</label>
                 </div>
                 `).join(``)}
-                </fieldset>
-              `).join(``)}
+              </fieldset>
+            `))}
           </div>
         </div>
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-          ${this._action.name} ${(this._action.name === `transfer`) ? `to` : `at`}
+          ${this._action} to
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._city}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -60,12 +60,12 @@ export default class EventEdit extends AbstractComponent {
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart.toLocaleDateString()}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart.toLocaleString()}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd.toLocaleDateString()}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd.toLocaleString()}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -100,10 +100,10 @@ export default class EventEdit extends AbstractComponent {
           <div class="event__available-offers">
           ${options.map((option) => `
           <div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage"
-            ${(new Set(this._selectedOptions.map((currentOpt) => currentOpt.name)).has(option.name)) ? `checked` : `` }
+            <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option.name}-1" type="checkbox" name="event-offer" value="${option.name}-${option.cost}"
+            ${(new Set([...this._selectedOptions].map((currentOpt) => currentOpt.name)).has(option.name)) ? `checked` : `` }
             >
-            <label class="event__offer-label" for="event-offer-luggage-1">
+            <label class="event__offer-label" for="event-offer-${option.name}-1">
               <span class="event__offer-title">${option.name}</span>
               &plus;
               &euro;&nbsp;<span class="event__offer-price">${option.cost}</span>
