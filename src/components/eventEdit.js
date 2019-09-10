@@ -1,5 +1,8 @@
 import {activity, citys} from '../data.js';
 import AbstractComponent from './abstractComponent';
+import '../../node_modules/flatpickr/dist/flatpickr.css';
+import flatpickr from 'flatpickr';
+import moment from 'moment';
 
 export default class EventEdit extends AbstractComponent {
   constructor({action, city, images, description, timeStart, timeEnd, price, selectedOptions, isFavorite}) {
@@ -15,6 +18,7 @@ export default class EventEdit extends AbstractComponent {
     this._isFavorite = isFavorite;
     this._selectedOptions = selectedOptions;
     this._init();
+    this._initFlapicker();
   }
 
   getTemplate() {
@@ -179,6 +183,25 @@ export default class EventEdit extends AbstractComponent {
     const images = this.getElement().querySelector(`.event__photos-tape`);
     description.textContent = newCity.description ? newCity.description : ``;
     images.innerHTML = `${newCity.images ? newCity.images.map((image) => `<img class="event__photo" src="${image}" alt="Event photo">`).join(``) : ``}`;
+  }
+
+  _initFlapicker() {
+    const start = this.getElement().querySelector(`#event-start-time-1`);
+    flatpickr(start, {
+      altFormat: `F j`,
+      dateFormat: `F j`,
+    });
+    start.addEventListener(`blur`, () => {
+      start.value = moment(start.value).format(`MMMM DD`);
+    });
+    const end = this.getElement().querySelector(`#event-end-time-1`);
+    flatpickr(end, {
+      altFormat: `F j`,
+      dateFormat: `F j`,
+    });
+    end.addEventListener(`blur`, () => {
+      end.value = moment(end.value).format(`MMMM DD`);
+    });
   }
 }
 
