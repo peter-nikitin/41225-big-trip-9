@@ -24,4 +24,4 @@ export const unRender = (element) => {
   element.remove();
 };
 
-export const getDays = (points) => new Set(points.map((point) => `${new Date(point.timeStart).getFullYear()}-${new Date(point.timeStart).getMonth()}-${new Date(point.timeStart).getDate()}`));
+export const getDays = (points) => new Set(points.map((point) => `${new Date(point.timeStart).toDateString()}`));
