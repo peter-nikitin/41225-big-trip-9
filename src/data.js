@@ -12,67 +12,131 @@ export const descriptions = [
   `In rutrum ac purus sit amet tempus.`
 ];
 
-export const options = [
-  {name: `Add luggage`, cost: 10},
-  {name: `Switch to comfort class`, cost: 150},
-  {name: `Add meal`, cost: 2},
-  {name: `Choose seats`, cost: 9},
-];
-
 export const activity = [
   {
-    name: `Taxi`,
-    type: `transfer`
+    name: `taxi`,
+    type: `transfer`,
+    options: [
+      {name: `Snaks`, cost: 2},
+      {name: `Waiting`, cost: 9},
+    ]
   },
   {
-    name: `Bus`,
-    type: `transfer`
+    name: `bus`,
+    type: `transfer`,
+    options: [
+      {name: `Add meal`, cost: 2},
+      {name: `Choose seats`, cost: 9},
+    ]
   },
   {
-    name: `Train`,
-    type: `transfer`
+    name: `train`,
+    type: `transfer`,
+    options: [
+      {name: `Add usb port`, cost: 10},
+      {name: `Switch to first class`, cost: 150},
+      {name: `Add meal`, cost: 2},
+      {name: `Choose seats`, cost: 9},
+    ]
   },
   {
-    name: `Ship`,
-    type: `transfer`
+    name: `ship`,
+    type: `transfer`,
+    options: [
+      {name: `Choos cabin with window`, cost: 10},
+      {name: `Restaurant dinner`, cost: 150},
+    ]
   },
   {
-    name: `Transport`,
-    type: `transfer`
+    name: `transport`,
+    type: `transfer`,
+    options: [
+      {name: `Choose Sits`, cost: 10},
+      {name: `Transfer`, cost: 150},
+    ]
   },
   {
-    name: `Drive`,
-    type: `transfer`
+    name: `drive`,
+    type: `transfer`,
+    options: [
+      {name: `Full inshurance`, cost: 100},
+      {name: `Empty tank`, cost: 20},
+    ]
   },
   {
-    name: `Flight`,
-    type: `transfer`
+    name: `flight`,
+    type: `transfer`,
+    options: [
+      {name: `Add luggage`, cost: 10},
+      {name: `Switch to comfort class`, cost: 150},
+      {name: `Add meal`, cost: 2},
+      {name: `Choose seats`, cost: 9},
+    ]
   },
   {
-    name: `Check-in`,
-    type: `activity`
+    name: `check-in`,
+    type: `activity`,
+    options: [
+      {name: `Early checkin`, cost: 2},
+      {name: `Lat checkout`, cost: 9},
+    ]
   },
   {
-    name: `Sightseeing`,
-    type: `activity`
+    name: `sightseeing`,
+    type: `activity`,
+    options: [
+      {name: `Lunch`, cost: 32},
+      {name: `Dinner`, cost: 29},
+      {name: `Souvinirs`, cost: 59},
+    ]
   },
   {
-    name: `Restaurant`,
-    type: `activity`
+    name: `restaurant`,
+    type: `activity`,
+    options: [
+      {name: `Reservation`, cost: 32},
+      {name: `Free bar`, cost: 129},
+      {name: `Vine testing`, cost: 59},
+    ]
   }
 ]
 
-export const citys = [`Moscow`, `Sain-Petersburg`, `Porto`, `Lisboa`];
+export const citys = [
+  {
+    name: `Moscow`,
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
+  },
+  {
+    name: `Sain-Petersburg`,
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
+  },
+  {
+    name: `Porto`,
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
+  },
+  {
+    name: `Lisboa`,
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
+  }
+];
 
-export const getPoint = (price) => ({
-  action: activity[Math.floor(Math.random() * activity.length)].name,
-  city: citys[Math.floor(Math.random() * citys.length)],
+export const getPoint = (price, activityNumber) => ({
+  action: activity[activityNumber].name,
+  city: citys[Math.floor(Math.random() * citys.length)].name,
   images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
-  description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
   timeStart: new Date(Date.now() + Math.floor(Math.random() * 10)),
   timeEnd: new Date(Date.now() + (Math.floor(Math.random() * 10) + 1) * 1000 * 60 * 60),
   price,
-  selectedOptions: new Set(new Array(Math.floor(Math.random() * 3)).fill(``).map(() => Math.floor(Math.random() * options.length)).map((option) => options[option])),
+  selectedOptions: new Set(
+      new Array(Math.floor(Math.random() * 2))
+        .fill(``)
+        .map(
+            () => Math.floor(Math.random() * activity[activityNumber].options.length))
+            .map((option) => activity[activityNumber].options[option])),
   isFavorite: Boolean(Math.round(Math.random()))
 });
 
