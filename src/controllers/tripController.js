@@ -23,7 +23,7 @@ export default class TripController {
     sort.getElement().addEventListener(`click`, (evt) => this._sortOnClick(evt));
     render(this._container, sort.getElement(), Position.AFTERBEGIN);
     if (futurePoints.length === 0) {
-      this._container.getElement().innerHTML = this._noPoints;
+      this._container.innerHTML = this._noPoints;
     } else {
       this._renderTripDays(this._points);
     }
@@ -69,8 +69,8 @@ export default class TripController {
     switch (target.dataset.sort) {
       case `sort-event`:
         const sortedByEvent = this._points.slice().sort((a, b) => {
-          const nameA = a.action.type.toUpperCase(); // ignore upper and lowercase
-          const nameB = b.action.type.toUpperCase(); // ignore upper and lowercase
+          const nameA = a.action.toUpperCase(); // ignore upper and lowercase
+          const nameB = b.action.toUpperCase(); // ignore upper and lowercase
           if (nameA < nameB) {
             return -1;
           }
@@ -79,7 +79,7 @@ export default class TripController {
         this._renderTripDays(sortedByEvent);
         break;
       case `sort-time`:
-        const sortedByTime = this._points.slice().sort((a, b) => a.timeStart - b.timeStart);
+        const sortedByTime = this._points.slice().sort((a, b) => +a.timeStart - +b.timeStart);
         this._renderTripDays(sortedByTime);
         break;
       case `sort-price`:
