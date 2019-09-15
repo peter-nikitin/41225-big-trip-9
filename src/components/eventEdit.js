@@ -1,8 +1,6 @@
 import {activity, citys} from '../data.js';
 import AbstractComponent from './abstractComponent';
 import '../../node_modules/flatpickr/dist/flatpickr.css';
-import flatpickr from 'flatpickr';
-import moment from 'moment';
 
 export default class EventEdit extends AbstractComponent {
   constructor({action, city, images, description, timeStart, timeEnd, price, selectedOptions, isFavorite}) {
@@ -18,7 +16,6 @@ export default class EventEdit extends AbstractComponent {
     this._isFavorite = isFavorite;
     this._selectedOptions = selectedOptions;
     this._init();
-    this._initFlapicker();
   }
 
   getTemplate() {
@@ -65,12 +62,12 @@ export default class EventEdit extends AbstractComponent {
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart.toString()}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${this._timeStart}">
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd.toString()}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${this._timeEnd}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -121,7 +118,7 @@ export default class EventEdit extends AbstractComponent {
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
           <p class="event__destination-description">
-          ${this._city.description}
+          ${this._description}
           </p>
 
           <div class="event__photos-container">
@@ -183,25 +180,6 @@ export default class EventEdit extends AbstractComponent {
     const images = this.getElement().querySelector(`.event__photos-tape`);
     description.textContent = newCity.description ? newCity.description : ``;
     images.innerHTML = `${newCity.images ? newCity.images.map((image) => `<img class="event__photo" src="${image}" alt="Event photo">`).join(``) : ``}`;
-  }
-
-  _initFlapicker() {
-    const start = this.getElement().querySelector(`#event-start-time-1`);
-    flatpickr(start, {
-      altFormat: `F j`,
-      dateFormat: `F j`,
-    });
-    start.addEventListener(`blur`, () => {
-      start.value = moment(start.value).format(`MMMM DD`);
-    });
-    const end = this.getElement().querySelector(`#event-end-time-1`);
-    flatpickr(end, {
-      altFormat: `F j`,
-      dateFormat: `F j`,
-    });
-    end.addEventListener(`blur`, () => {
-      end.value = moment(end.value).format(`MMMM DD`);
-    });
   }
 }
 
