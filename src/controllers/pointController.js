@@ -1,6 +1,7 @@
 import {unRender, render, Position} from '../utils';
 import Event from '../components/eventItem';
 import EventEdit from '../components/eventEdit';
+import flatpickr from 'flatpickr';
 
 export default class PointController {
   constructor(point, container, onViewChange, onDataChange) {
@@ -57,12 +58,15 @@ export default class PointController {
           city: formData.get(`event-destination`),
           images: this._point.images,
           description: this._point.description,
-          timeStart: new Date(Date.parse(formData.get(`event-start-time`))),
-          timeEnd: new Date(Date.parse(formData.get(`event-end-time`))),
+          timeStart: formData.get(`event-start-time`),
+          timeEnd: formData.get(`event-end-time`),
           price: this._point.price,
           selectedOptions: new Set(formData.getAll(`event-offer`).map((option) => ({name: option.split(`-`)[0], cost: option.split(`-`)[1]}))),
-          isFavorite: this._point.isFavorite
+          isFavorite: formData.get(`event-favorite`)
         };
+
+        console.log(newData.timeStart)
+        console.log(newData.timeEnd)
         this._onDataChange(newData, this._point);
 
         this._container.replaceChild(
@@ -90,8 +94,33 @@ export default class PointController {
       .addEventListener(`click`, () => {
         unRender(this._eventEdit.getElement());
         this._eventEdit.removeElement();
-        document.removeEventListener(`keydown`, hideOnEsc);
       });
+
+    flatpickr(this._eventEdit
+    .getElement()
+    .querySelector(`#event-start-time-1`), {
+      altInput: true,
+      altFormat: `d/m/y H:i`,
+      // dateFormat: `Y-m-d H:i:s`,
+      enableTime: true,
+      // eslint-disable-next-line camelcase
+      time_24hr: true,
+      defaultDate: this._point.timeStart
+    });
+
+    flatpickr(this._eventEdit
+    .getElement()
+    .querySelector(`#event-end-time-1`), {
+      altInput: true,
+      altFormat: `d/m/y H:i`,
+      // dateFormat: `Y-m-d H:i:s`,
+      enableTime: true,
+      // eslint-disable-next-line camelcase
+      time_24hr: true,
+      defaultDate: this._point.timeEnd
+    });
+
+
     render(this._container, this._event.getElement(), Position.BEFOREEND);
 
   }
