@@ -104,22 +104,22 @@ export const activity = [
 export const citys = [
   {
     name: `Moscow`,
-    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => descriptions[Math.floor(Math.random() * descriptions.length)]).join(` `),
     images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
   },
   {
     name: `Sain-Petersburg`,
-    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => descriptions[Math.floor(Math.random() * descriptions.length)]).join(` `),
     images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
   },
   {
     name: `Porto`,
-    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => descriptions[Math.floor(Math.random() * descriptions.length)]).join(` `),
     images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
   },
   {
     name: `Lisboa`,
-    description: new Array(Math.floor(Math.random() * 3)).fill(``).map((item, index) => descriptions[index]).join(` `),
+    description: new Array(Math.floor(Math.random() * 3)).fill(``).map(() => descriptions[Math.floor(Math.random() * descriptions.length)]).join(` `),
     images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`)
   }
 ];
@@ -127,6 +127,7 @@ export const citys = [
 export const getPoint = (price, activityNumber) => ({
   action: activity[activityNumber].name,
   city: citys[Math.floor(Math.random() * citys.length)].name,
+  description: citys[Math.floor(Math.random() * citys.length)].description,
   images: new Array(Math.floor(Math.random() * 7)).fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
   timeStart: new Date(Date.now() + Math.floor(Math.random() * 10)),
   timeEnd: new Date(Date.now() + (Math.floor(Math.random() * 10) + 1) * 1000 * 60 * 60),
