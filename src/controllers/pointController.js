@@ -64,9 +64,6 @@ export default class PointController {
           selectedOptions: new Set(formData.getAll(`event-offer`).map((option) => ({name: option.split(`-`)[0], cost: option.split(`-`)[1]}))),
           isFavorite: formData.get(`event-favorite`)
         };
-
-        console.log(newData.timeStart)
-        console.log(newData.timeEnd)
         this._onDataChange(newData, this._point);
 
         this._container.replaceChild(
