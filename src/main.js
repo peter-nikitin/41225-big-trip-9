@@ -6,7 +6,7 @@ import {getPoint, getFilter, getTripInfo} from './data.js';
 
 import TripController from './controllers/tripController';
 
-const mockPoints = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100), Math.floor(Math.random() * 11)));
+const mockPoints = new Array(3).fill(``).map(() => getPoint(Math.floor(Math.random() * 100), Math.floor(Math.random() * 10)));
 
 const getTotal = (points) => {
   let total = 0;
