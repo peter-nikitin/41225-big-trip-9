@@ -1,13 +1,14 @@
 
 import AbstractComponent from './abstractComponent';
+import moment from 'moment';
 
 export default class Event extends AbstractComponent {
   constructor({action, city, timeStart, timeEnd, price, selectedOptions}) {
     super();
     this._action = action;
     this._city = city;
-    this._timeStart = new Date(timeStart);
-    this._timeEnd = new Date(timeEnd);
+    this._timeStart = moment(timeStart);
+    this._timeEnd = moment(timeEnd);
     this._price = price;
     this._selectedOptions = selectedOptions;
   }
@@ -33,11 +34,11 @@ export default class Event extends AbstractComponent {
 
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="2019-03-18T10:30">${this._timeStart.toLocaleTimeString()}</time>
+          <time class="event__start-time" datetime="2019-03-18T10:30">${this._timeStart.format(`HH:mm:ss`)}</time>
           &mdash;
-          <time class="event__end-time" datetime="2019-03-18T11:00">${this._timeEnd.toLocaleTimeString()}</time>
+          <time class="event__end-time" datetime="2019-03-18T11:00">${this._timeEnd.format(`HH:mm:ss`)}</time>
         </p>
-        <p class="event__duration">${this._getTimeDefferense(this._timeStart, this._timeEnd)}</p>
+        <p class="event__duration">${moment.duration(this._timeStart.diff(this._timeEnd)).humanize()}</p>
       </div>
 
       <p class="event__price">
